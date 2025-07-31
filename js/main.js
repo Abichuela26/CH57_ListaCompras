@@ -10,11 +10,16 @@ const tablaListaCompras = document.getElementById("tablaListaCompras");
 //Variable para la tabla de compras
 const cuerpoTabla = tablaListaCompras.getElementsByTagName("tbody").item(0);
 //Variable para el tbody de la tabla
-const filaTabla = document.createElement("tr");
-//Crea una fila para la tabla
+
+const contardorProductos = document.getElementById("contardorProductos");
+const productosTotal = document.getElementById("productosTotal");
+const precioTotal = document.getElementById("precioTotal");
+//Variables para el contador de productos, total de productos y precio total
 
 
 let cont = 0; //Contador de productos agregados
+let totalEnProductos = 0; //Total de productos agregados
+let costoTotal = 0; //Total en precio de los productos agregados
 
 function validarCantidad() {
     if (txtNumber.value.length == 0) {
@@ -34,8 +39,8 @@ function validarCantidad() {
 
 
 
-function getPrecio(){
-    return Math.round(Math.random() * 10000) /100; //Genera un número aleatorio entre 0 y 100
+function getPrecio() {
+    return Math.round(Math.random() * 10000) / 100; //Genera un número aleatorio entre 0 y 100
 }//getPrecio
 
 
@@ -64,30 +69,39 @@ btnAgregar.addEventListener("click", function (event) {
         isValid = false; //Si no es válido, cambia la bandera
     }//! validarCantidad
 
-    if(isValid) {
+    if (isValid) {
         //Si es válido, entonces crea el producto
         cont++; //Incrementa el contador de productos agregados
         let precio = getPrecio(); //Obtener el precio aleatorio
 
-        let row= `<tr>        
+        let row = `<tr>        
                 <td>${cont}</td>
                 <td>${txtName.value}</td>
                 <td>${txtNumber.value}</td>
-                <td>$${precio}</td>
+                <td>$${precio.toFixed(2)}</td>
             </tr>
         `; //Agrega una nueva fila a la tabla con los datos del producto
-        
+
         cuerpoTabla.insertAdjacentHTML("beforeend", row);
         //Agrega la fila al cuerpo de la tabla  
-                
+        contadorProductos.innerText = cont; //Actualiza el contador de productos
+        totalEnProductos += Number(txtNumber.value); //Suma la cantidad de productos
+        productosTotal.innerText = totalEnProductos; //Actualiza el total de productos
+
+        costoTotal += precio * Number(txtNumber.value); //Suma el precio del producto
+        precioTotal.innerText = new Intl.NumberFormat("es-MX",
+            { style: "currency", currency: "MXN" }).format(costoTotal); //Actualiza el precio total
+
+        //.toFixed(2) para mostrar dos decimales
+
         txtName.value = ""; //Limpia los campos después de agregar
         txtNumber.value = ""; //Limpia los campos después de agregar
         txtName.focus(); //Enfoca el campo de nombre para agregar otro producto
-     
+
     }//isValid
 }); //btnAgregar click
 
 
-btnClear.addEventListener("click", function (event){
+btnClear.addEventListener("click", function (event) {
     event.preventDefault();
-});
+});//btnClear click
