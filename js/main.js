@@ -23,6 +23,10 @@ function validarCantidad() {
     return true;
 }//Validar cantidad
 
+function getPrecio(){
+    return Math.round(Math.random() * 10000) /100; //Genera un número aleatorio entre 0 y 100
+}//getPrecio
+
 
 btnAgregar.addEventListener("click", function (event) {
     event.preventDefault();
@@ -53,3 +57,8 @@ btnAgregar.addEventListener("click", function (event) {
     //Mayor que 0
 
 }); //btnAgregar click
+
+
+btnClear.addEventListener("click", function (event){
+    event.preventDefault();
+});
